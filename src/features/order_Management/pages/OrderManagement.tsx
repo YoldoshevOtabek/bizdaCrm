@@ -1,12 +1,11 @@
 import { Spin } from "antd";
 import useOrders from "../hooks/useOrder";
 import OrdersTable from "./OrderListTable";
-import OrderModal from "./OrderModal";
-import { useState } from "react";
+
 
 export const OrderManagement = () => {
   const { data, isLoading } = useOrders();
-  const [openAddOrder, setOpenAddOrder] = useState(false);
+
 
   const orders = data?.data || [];
   const totalOrders = data?.meta?.total || 0;
@@ -35,14 +34,7 @@ export const OrderManagement = () => {
       <div className="flex items-center justify-between">
         <span className="text-[22px]">Order List</span>
         <div className="flex items-center gap-3">
-          <button
-            onClick={() => setOpenAddOrder(true)}
-            className="flex items-center gap-1 rounded-lg bg-green-700 px-5 py-3 text-white cursor-pointer"
-          >
-            <i className="bi bi-plus-circle"></i>
-
-            <span className="text-[15px]">Add Order</span>
-          </button>
+         
           <button className="flex items-center gap-1 px-5 py-3 rounded-lg cursor-pointer bg-white text-black">
             <span className="text-[15px]">More Action</span>
             <i className="bi bi-three-dots-vertical"></i>
@@ -141,10 +133,7 @@ export const OrderManagement = () => {
       <div className="mt-4">
         <OrdersTable orders={orders} />
       </div>
-      <OrderModal
-        open={openAddOrder}
-        onClose={() => setOpenAddOrder(false)}
-      />
+      
     </div>
   );
 };

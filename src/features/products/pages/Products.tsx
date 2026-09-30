@@ -247,8 +247,8 @@ export const Products = () => {
             />
           </div>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full ">
+          <div className="overflow-hidden w-full">
+            <table className="w-full table-fixed ">
               <thead>
                 <tr className=" border-b border-gray-200 bg-gray-50 dark:border-[#25282a] dark:bg-[#0D1010]">
                   <th className="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-400">
@@ -300,7 +300,7 @@ export const Products = () => {
                       {/* Product */}
 
                       <td className="px-1.5 py-3">
-                        <div className="flex min-w-[280px] items-center gap-4">
+                        <div className="flex min-w-0 items-center gap-4">
                           <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-lg border border-gray-200 bg-gray-100 dark:border-[#292d2e] dark:bg-[#0A0C0C]">
                             {image ? (
                               <img
@@ -323,7 +323,7 @@ export const Products = () => {
 
                           <div>
                             <div className="flex items-center gap-2">
-                              <p className="max-w-[220px] truncate font-semibold dark:text-white">
+                              <p className="max-w-full truncate font-semibold dark:text-white">
                                 {product.name}
                               </p>
 
@@ -339,7 +339,7 @@ export const Products = () => {
 
                       {/* Brand */}
 
-                      <td className="px-6 py-4">
+                      <td className="px-3 py-4">
                         <span className="text-sm text-gray-700 dark:text-gray-300">
                           {product.brand?.name || "-"}
                         </span>

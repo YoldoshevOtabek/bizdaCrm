@@ -6,6 +6,8 @@ import {
   Package,
   Tags,
   UserCircle,
+  PanelsTopLeft,
+  Image,
 } from "lucide-react";
 
 import type { SidebarMenuType } from "../components/ui/sidebar";
@@ -49,6 +51,12 @@ export const sidebarMenu: SidebarMenuType[] = [
   },
   {
     id: 7,
+    title: "Banner",
+    path: "/banner",
+    icon: Image,
+  },
+  {
+    id: 8,
     title: "Profile",
     path: "/profile",
     icon: UserCircle,

@@ -13,6 +13,7 @@ import {
   InputNumber,
   message,
   Select,
+  Spin,
   Switch,
 } from "antd";
 import { useNavigate, useParams } from "react-router-dom";
@@ -574,7 +575,7 @@ const AddProduct = () => {
     return (
       <div className="flex min-h-[500px] items-center justify-center">
         <div className="text-gray-500">
-          Loading product...
+          <Spin size="large"/>
         </div>
       </div>
     );

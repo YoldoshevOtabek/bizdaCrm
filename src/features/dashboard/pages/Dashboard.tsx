@@ -71,12 +71,7 @@ export const Dashboard = () => {
               {totalSales.previousValue.toLocaleString()} so'm
             </span>
           </span>
-
-          <div className=" flex justify-end mt-5">
-            <button className="absolute bottom-5 right-4 cursor-pointer text-[#6467F2] px-[24.5px] py-1 rounded-[50px] border-2 border-[#6467F2]">
-              Details
-            </button>
-          </div>
+          
         </div>
 
         {/* Total Orders */}
@@ -115,11 +110,7 @@ export const Dashboard = () => {
             </span>
           </span>
 
-          <div className="flex justify-end mt-5">
-            <button className="absolute bottom-5 right-4 cursor-pointer text-[#6467F2] px-[24.5px] py-1 rounded-[50px] border-2 border-[#6467F2]">
-              Details
-            </button>
-          </div>
+          
         </div>
 
         {/* Pending & Canceled */}
@@ -164,11 +155,6 @@ export const Dashboard = () => {
             </span>
           </div>
 
-          <div className="flex justify-end mt-5">
-            <button className="absolute bottom-5 right-4 cursor-pointer text-[#6467F2] px-[24.5px] py-1 rounded-[50px] border-2 border-[#6467F2]">
-              Details
-            </button>
-          </div>
         </div>
       </div>
 

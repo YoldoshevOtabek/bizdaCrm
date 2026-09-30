@@ -2,13 +2,15 @@ import { useState } from "react"
 import logo from "../../assets/svg/logo.svg"
 import { NavLink, useNavigate } from "react-router-dom"
 import { sidebarMenu } from "../../routes/Route"
-import userPhoto from "../../assets/img/photo_2026-08-13_12-27-13.png" 
 import { useTheme } from "../../context/ThemeContext"
+import { useUser } from "../../features/auth/context/UserContext"
 
 export const Sidebar = () => {
     const [openToggle, setOpenToggle] = useState(false)
     const { theme } = useTheme();
     const navigate = useNavigate()
+
+    const {user} = useUser()
     const handleLogout = () => {
       
       navigate("/login", { replace: true });
@@ -62,13 +64,13 @@ export const Sidebar = () => {
             
               
               <div className="w-12 h-12 rounded-full overflow-hidden">
-                <img src={userPhoto} alt="" className="w-full h-full object-cover"/>
+                <img src={user?.avatar} alt="" className="w-full h-full object-cover"/>
             </div> 
             { 
             !openToggle?
             <div className="">
-                <p className="">Otabek</p>
-                <span className="text-[10px]">yoldoshev02000@gmail.com</span>    
+                <p className="">{user?.firstName} {user?.lastName}</p>
+                <span className="text-[10px]">{user?.email}</span>    
             </div> : "" }
             
           

@@ -1,13 +1,14 @@
 import { Bell, Moon, Search, Sun } from "lucide-react";
-import { useState } from "react";
+
 import { useLocation } from "react-router-dom";
 import userPhoto from "../../assets/img/photo_2026-08-13_12-27-13.png";
 import { useTheme } from "../../context/ThemeContext";
+import { useUser } from "../../features/auth/context/UserContext";
 
 export const Header = () => {
   const location = useLocation();
   const { theme, setTheme } = useTheme();
-
+  const {user} = useUser()
   const getPageTitle = (pathname: string) => {
     if (pathname.startsWith("/dashboard")) return "Dashboard";
     if (pathname.startsWith("/orders")) return "Order Management";
@@ -64,7 +65,7 @@ export const Header = () => {
           {/* User */}
           <div className="w-12 h-12 rounded-full overflow-hidden">
             <img
-              src={userPhoto}
+              src={user?.avatar}
               alt=""
               className="w-full h-full object-cover"
             />

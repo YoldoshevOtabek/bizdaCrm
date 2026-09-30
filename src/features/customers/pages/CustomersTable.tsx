@@ -7,6 +7,7 @@ import {
   Tooltip,
   message,
   Select,
+  Spin,
 } from "antd";
 
 import {
@@ -130,7 +131,7 @@ function CustomerCard({
           onClick={onClose}
         />
       </div>
-
+      
 
       {/* HEADER */}
 
@@ -456,7 +457,7 @@ export default function CustomerTable() {
   if (isLoading) {
     return (
       <div className="customer-page">
-        Loading...
+        <Spin size="large"/>
       </div>
     );
   }
@@ -563,7 +564,7 @@ export default function CustomerTable() {
                   setPage(24)
                 }
                 type={
-                  page === 24
+                  page === 5
                     ? "primary"
                     : "default"
                 }
@@ -575,10 +576,10 @@ export default function CustomerTable() {
 
 
             <Button
-              disabled={page === 24}
+              disabled={page === 5}
               onClick={() =>
                 setPage(
-                  Math.min(24, page + 1)
+                  Math.min(5, page + 1)
                 )
               }
             >

@@ -1,6 +1,7 @@
 import ApexChart from "./ApexChart";
 import CustomerTable from "./CustomersTable";
 import useCustomer from "../hooks/useCustomers";
+import { Spin } from "antd";
 
 
 export const Customers = () => {
@@ -26,8 +27,7 @@ export const Customers = () => {
   // =========================
   // NEW CUSTOMERS
   // =========================
-  // Hozirgi API dagi barcha customerlar ichidan
-  // oxirgi 7 kunda yaratilganlarini hisoblaymiz.
+ 
 
   const sevenDaysAgo = new Date();
 
@@ -66,8 +66,8 @@ export const Customers = () => {
 
   if (isLoading) {
     return (
-      <div className="p-5">
-        Loading...
+      <div className="w-full h-screen flex justify-center items-center">
+        <Spin size="large"/>
       </div>
     );
   }
@@ -75,7 +75,7 @@ export const Customers = () => {
 
   if (isError) {
     return (
-      <div className="p-5">
+      <div className="p-5 text-red-500">
         Failed to load customers
       </div>
     );

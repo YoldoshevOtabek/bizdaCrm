@@ -1,65 +1,42 @@
-import { useState } from "react";
-import { FilterModal } from "./FilterModal";
-
-
-const products = [
-  {
-    id: 1,
-    name: "Apple iPhone 13",
-    image: "📱",
-    orders: 104,
-    status: "Stock",
-    price: "$999.00",
-  },
-  {
-    id: 2,
-    name: "Nike Air Jordan",
-    image: "👟",
-    orders: 56,
-    status: "Stock out",
-    price: "$999.00",
-  },
-  {
-    id: 3,
-    name: "T-shirt",
-    image: "👕",
-    orders: 266,
-    status: "Stock",
-    price: "$999.00",
-  },
-  {
-    id: 4,
-    name: "Cross Bag",
-    image: "👜",
-    orders: 506,
-    status: "Stock",
-    price: "$999.00",
-  },
-];
+import useDashboard from "../hooks/useDashboardQuery";
+import { Spin } from "antd";
 
 export const BestSellingProduct = () => {
-  const [openModal, setOpenModal] = useState(false)
-  const [filters, setFilters] = useState({
-    search: "",
-    status: "",
-    minPrice: "",
-    maxPrice: "",
-  });
+  const {
+    bestSell,
+    bestSellLoading,
+    bestSellError,
+  } = useDashboard();
+
+ 
+  if (bestSellLoading) {
+    return (
+      <div className="content-mood shadow-[0px_1px_3px_0px_#00000033] rounded-lg col-span-8 p-10 flex justify-center items-center">
+        <Spin size="large" />
+      </div>
+    );
+  }
+
+  if (bestSellError) {
+    return (
+      <div className="content-mood shadow-[0px_1px_3px_0px_#00000033] rounded-lg col-span-8 p-5">
+        <p className="text-sm text-red-500">
+          Best selling products yuklanmadi
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="content-mood shadow-[0px_1px_3px_0px_#00000033] rounded-lg col-span-8 p-2.5">
+      {/* Header */}
       <div className="flex justify-between items-center">
-        <span className="text-[18px]">Best Selling Product</span>
-        <button onClick={()=> setOpenModal(!openModal)} className="bg-green-800 text-white text-[14px] rounded-lg px-3 py-1.5 flex items-center gap-2 cursor-pointer">
-          Filter <i className="bi bi-filter text-[20px]"></i>{" "}
-        </button>
-       
+        <span className="text-[18px]">
+          Best Selling Product
+        </span>
       </div>
-      {openModal && (
-      <FilterModal
-        onClose={() => setOpenModal(false)}
-        onFilter={(newFilters) => setFilters(newFilters)}
-      />
-    )}
+
+      {/* Table Header */}
       <div className="mt-4 grid grid-cols-4 items-center rounded-lg bg-[#e0e2e0] px-4 py-3 text-[11px] font-medium uppercase text-[#68727D]">
         <div>Product</div>
         <div>Total Order</div>
@@ -68,49 +45,66 @@ export const BestSellingProduct = () => {
       </div>
 
       {/* Rows */}
-      <div>
-        {products.map((product) => (
+      <div className="max-h-75 overflow-y-scroll">
+        {bestSell?.map((product: any) => (
           <div
             key={product.id}
-            className="grid grid-cols-4 items-center px-4 py-3 text-sm"
+            className=" grid grid-cols-4 items-center border-b border-[#E1E1E1] px-4 py-3 text-sm"
           >
             {/* Product */}
-            <div className="flex items-center gap-3">
-              <div className="flex h-7 w-7 items-center justify-center text-xl">
-                {product.image}
+            <div className="flex items-center gap-3 ">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-md bg-[#F5F5F5]">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="h-full w-full object-cover"
+                />
               </div>
 
-              <span className="font-semibold ">{product.name}</span>
+              <div className="min-w-0">
+                <span className="block max-w-[180px] truncate font-semibold">
+                  {product.name}
+                </span>
+
+                <span className="block text-[11px] text-[#8A94A6]">
+                  SKU: {product.sku}
+                </span>
+              </div>
             </div>
 
             {/* Total Order */}
-            <div className="text-[#5a6472]">{product.orders}</div>
+            <div className="text-[#5a6472]">
+              {product.totalOrders ?? product.orders}
+            </div>
 
             {/* Status */}
             <div
               className={`flex items-center gap-2 ${
-                product.status === "Stock" ? "text-[#16B957]" : "text-[#FF4444]"
+                product.status === "Stock"
+                  ? "text-[#16B957]"
+                  : "text-[#FF4444]"
               }`}
             >
               <span
                 className={`h-2 w-2 rounded-full ${
-                  product.status === "Stock" ? "bg-[#16B957]" : "bg-[#FF4444]"
+                  product.status === "Stock"
+                    ? "bg-[#16B957]"
+                    : "bg-[#FF4444]"
                 }`}
-              ></span>
+              />
 
               <span>{product.status}</span>
             </div>
 
             {/* Price */}
-            <div className="font-semibold ">{product.price}</div>
+            <div className="font-semibold">
+              {Number(product.price).toLocaleString("uz-UZ")} so'm
+            </div>
           </div>
         ))}
       </div>
-      <div className="flex justify-end mt-5">
-        <button className="cursor-pointer text-[#6467F2] px-[24.5px] py-1 rounded-[50px] border-2 border-[#6467F2]">
-          Details
-        </button>
-      </div>
+
+     
     </div>
   );
 };

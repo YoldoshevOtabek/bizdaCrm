@@ -1,6 +1,6 @@
-
+import { useState } from "react";
 import useDashboard from "../hooks/useDashboardQuery";
-
+import { Spin } from "antd";
 
 export default function UsersInfo() {
   const {
@@ -10,29 +10,26 @@ export default function UsersInfo() {
     isError,
   } = useDashboard();
 
-  
+
   const bars = usersData?.perMinute ?? [];
 
-  // Eng katta qiymatni topamiz
   const maxUsers = Math.max(
     ...bars.map((item: any) => item.users),
     1
   );
 
-  // Loading
+  
+
   if (isLoading) {
     return (
       <div className="content-mood col-span-4 rounded-lg border border-[#E5E7EB] bg-white overflow-hidden">
         <div className="flex h-full min-h-[300px] items-center justify-center">
-          <p className="text-[11px] text-[#6A717F]">
-            Loading...
-          </p>
+          <Spin size="large"/>
         </div>
       </div>
     );
   }
 
-  // Error
   if (isError) {
     return (
       <div className="content-mood col-span-4 rounded-lg border border-[#E5E7EB] bg-white overflow-hidden">
@@ -53,7 +50,7 @@ export default function UsersInfo() {
         <div className="flex items-start justify-between">
 
           <div>
-            <p className="text-[10px] text-[#6467F2]">
+            <p className="text-[15px] text-[#6467F2]">
               Users in last 30 minutes
             </p>
 
@@ -69,7 +66,7 @@ export default function UsersInfo() {
         </div>
 
         {/* Users per minute */}
-        <p className="mt-3 text-[10px] text-[#99a8c7]">
+        <p className="mt-3 text-[12px] text-[#99a8c7]">
           Users per minute
         </p>
 
@@ -102,35 +99,34 @@ export default function UsersInfo() {
       {/* Country header */}
       <div className="mt-3 flex justify-between border-b border-[#E5E7EB] px-4 pb-1">
 
-        <span className="text-[11px] font-medium">
+        <span className="text-[14px] font-medium">
           Sales by Country
         </span>
 
-        <span className="text-[11px] font-medium">
+        <span className="text-[12px] font-medium">
           Sales
         </span>
 
       </div>
 
       {/* Countries */}
-      <div className="px-3">
+      <div className="px-3 max-h-45 overflow-y-scroll">
 
-        { salesByCountry?.map((item: any, index: number) => {
+        {salesByCountry.map((item: any, index: number) => {
 
           const maxShare = 80;
 
-          const width =
-            Math.min(
-              (item.share / 100) * maxShare,
-              maxShare
-            );
+          const width = Math.min(
+            (item.share / 100) * maxShare,
+            maxShare
+          );
 
           const isPositive = item.changePercent >= 0;
 
           return (
             <div
-              key={index}
-              className="relative flex h-[48px] items-center border-b border-[#E5E7EB]"
+             
+              className="relative flex h-[58px] items-center border-b border-[#E5E7EB]"
             >
 
               {/* Flag */}
@@ -138,7 +134,7 @@ export default function UsersInfo() {
                 🇺🇿
               </div>
 
-              {/* User / country info */}
+              {/* Country info */}
               <div className="w-[62px]">
                 <p className="text-[11px] font-medium">
                   {item.name}
@@ -151,7 +147,6 @@ export default function UsersInfo() {
 
               {/* Progress */}
               <div className="flex-1">
-
                 <div className="h-[4px] w-[80px] rounded-full bg-[#E5E7EB]">
 
                   <div
@@ -162,7 +157,6 @@ export default function UsersInfo() {
                   />
 
                 </div>
-
               </div>
 
               {/* Percent */}
@@ -187,16 +181,8 @@ export default function UsersInfo() {
 
       </div>
 
-      {/* Button */}
-      <div className="px-3 py-2">
-
-        <button className="w-full rounded-full border border-[#6467F2] py-[4px] text-[10px] text-[#6467F2] transition hover:bg-[#6467F2] hover:text-white">
-          View Insight
-        </button>
-
-      </div>
+     
 
     </div>
   );
 }
-

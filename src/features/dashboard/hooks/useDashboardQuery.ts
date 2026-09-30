@@ -59,8 +59,34 @@ const useDashboard = () => {
       return response.data?.data ?? [];
     },
   });
-
-  // Sales By Country
+  // Top Products
+  const {
+    data: topProduct,
+    isLoading: topProductLoading,
+    isError: topProductError,
+  } = useQuery({
+    queryKey: ["top-product"],
+    queryFn: async () => {
+      const response = await http.get(
+        "/admin/dashboard/top-products"
+      );
+      return response?.data?.data ?? [];
+    },
+  });
+  // Best Sellers
+  const {
+    data: bestSell,
+    isLoading: bestSellLoading,
+    isError: bestSellError,
+  } = useQuery({
+    queryKey: ["best-sellers"],
+    queryFn: async () => {
+      const response = await http.get(
+        "/admin/dashboard/best-sellers"
+      );
+      return response?.data?.data ?? [];
+    },
+  });
 
 
   return {
@@ -68,10 +94,12 @@ const useDashboard = () => {
     weeklyReport,
     usersData,
     salesByCountry,
+    topProduct,
+    bestSell,
    
 
-    isLoading: kpisLoading || weeklyLoading || usersLoading || countryLoading ,
-    isError: kpisError || weeklyError || usersError || countryError ,
+    isLoading: kpisLoading || weeklyLoading || usersLoading || countryLoading || topProductLoading || bestSellLoading,
+    isError: kpisError || weeklyError || usersError || countryError || topProductError || bestSellError,
   };
 };
 

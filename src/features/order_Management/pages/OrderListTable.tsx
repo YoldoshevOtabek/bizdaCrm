@@ -425,7 +425,7 @@ export default function OrdersTable({
    */
 
   return (
-    <div className="content-bg min-h-[calc(100vh-96px)] w-full bg-white p-6">
+    <div className="content-bg min-h-[calc(100vh-96px)] w-full bg-white ">
 
       {/* Main Card */}
 

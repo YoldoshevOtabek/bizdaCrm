@@ -2,6 +2,7 @@ import { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import type { ApexOptions } from "apexcharts";
 import useDashboard from "../hooks/useDashboardQuery";
+import { Spin } from "antd";
 
 type Metric =
   | "customer"
@@ -14,7 +15,7 @@ type Period = "thisWeek" | "lastWeek";
 
 const ApexChart = () => {
   const [activeMetric, setActiveMetric] =
-    useState<Metric>("customer");
+    useState<Metric>("revenue");
 
   const [period, setPeriod] =
     useState<Period>("thisWeek");
@@ -29,7 +30,7 @@ const ApexChart = () => {
     return (
       <div className="content-mood shadow-[0px_1px_3px_0px_#00000033] rounded-lg col-span-8 p-4">
         <div className="flex h-[300px] items-center justify-center">
-          Loading...
+          <Spin size="large"/>
         </div>
       </div>
     );
@@ -38,7 +39,7 @@ const ApexChart = () => {
   if (isError || !weeklyReport?.data) {
     return (
       <div className="content-mood shadow-[0px_1px_3px_0px_#00000033] rounded-lg col-span-8 p-4">
-        <div className="flex h-[300px] items-center justify-center">
+        <div className="flex h-[300px] items-center justify-center text-red-600">
           Dashboard ma'lumotlarini olishda xatolik.
         </div>
       </div>
@@ -50,25 +51,18 @@ const ApexChart = () => {
   const stats = dashboard.stats;
 
   /*
-   * This week yoki Last week
+   * This week or Last week
    */
   const chartData =
     period === "thisWeek"
       ? dashboard.chart.thisWeek
       : dashboard.chart.lastWeek;
 
-  /*
-   * API'dagi chart ma'lumotlarini
-   * bizning metriclarimizga aylantiramiz
-   */
+ 
   const data = {
     customer: {
       value: stats.customers,
       label: "Customers",
-
-      // customer API'da kunlik chart yo'q.
-      // Shuning uchun customers qiymatini
-      // umumiy ko'rsatamiz.
       chart: chartData.map(() => stats.customers),
     },
 
@@ -97,8 +91,7 @@ const ApexChart = () => {
       value: stats.revenue,
       label: "Revenue",
 
-      // Revenue uchun haqiqiy kunlik
-      // ma'lumot backenddan kelmoqda
+      
       chart: chartData.map((item:any) => item.revenue),
     },
   };
