@@ -1,85 +1,134 @@
-import { useState } from "react"
-import logo from "../../assets/svg/logo.svg"
-import { NavLink, useNavigate } from "react-router-dom"
-import { sidebarMenu } from "../../routes/Route"
-import { useTheme } from "../../context/ThemeContext"
-import { useUser } from "../../features/auth/context/UserContext"
+import { Link, NavLink } from "react-router-dom";
+import logo from "../../assets/img/logo.png";
+import logoMark from "../../assets/svg/logo-mark.svg";
+import photo from "../../assets/img/photo.png";
+import RemoteImg from "../RemoteImg";
+import { sidebarRoutes } from "../../constants/navigate";
+import { LogOut, PanelLeftClose, PanelLeftOpen } from "lucide-react";
+import { Tooltip } from "antd";
+import { useUser } from "../../features/auth/context/UserContext";
+import { useLayout } from "../../context/LayoutContext";
 
-export const Sidebar = () => {
-    const [openToggle, setOpenToggle] = useState(false)
-    const { theme } = useTheme();
-    const navigate = useNavigate()
-
-    const {user} = useUser()
-    const handleLogout = () => {
-      
-      navigate("/login", { replace: true });
-    };
+export default function Sidebar() {
+  const { user, logOut: logout } = useUser();
+  const { collapsed, mobileOpen, toggleCollapsed, closeMobile } = useLayout();
+  const compact = collapsed && !mobileOpen;
 
   return (
-    <div className={`${openToggle? "w-20" : " w-65"} layout-sidebar transition-all duration-300 h-screen flex flex-col justify-between shrink-0` }>
-        <div>
-        <div className={`${openToggle ? "justify-center" : "justify-between"}  flex  p-5`}>
-            { 
-                !openToggle ?
-               <img src={logo} alt="" /> : "" 
-               }
-             {
-                !openToggle ?
-                <i onClick={()=> setOpenToggle(!openToggle)} className="toggle bi bi-arrow-bar-left"></i> :
-                <i onClick={()=> setOpenToggle(!openToggle)} className="toggle bi bi-arrow-bar-right"></i>
-            }
-        </div>
+    <>
+      {mobileOpen ? (
+        <button
+          type="button"
+          className="overlay lg:hidden"
+          aria-label="Close menu"
+          onClick={closeMobile}
+        />
+      ) : null}
 
-        <menu className="p-2.5">
-            {
-              ! openToggle? <span className="text-[15px] mt-1 p-3.5">Main menu</span> : ""}
-            {sidebarMenu.map((item) => {
-        const Icon = item.icon;
-
-        return (
-          <NavLink
-            key={item.id}
-            to={item.path}
-            className={({ isActive }) =>
-              `flex items-center gap-3 px-4 py-2 mb-2 rounded-md p-3.5
-              ${
-                isActive
-                  ? "bg-[#4EA674] text-white"
-                  : `${!theme ? "hover:bg-[#333]" : "hover:bg-[#e4e2e2]" } text-gray-500 `
-              }`
-            }
+      <aside
+        className={`app-sidebar fixed inset-y-0 left-0 z-40 flex h-screen flex-col text-ink transition-all duration-300 ${
+          compact ? "is-compact w-[84px]" : "w-[264px]"
+        } ${
+          mobileOpen ? "translate-x-0" : "max-lg:-translate-x-full lg:translate-x-0"
+        }`}
+      >
+        <div
+          className={`sidebar-brand flex px-3 ${
+            compact
+              ? "flex-col items-center gap-3 py-4"
+              : "h-16 items-center justify-between px-4"
+          }`}
+        >
+          <Link to="/dashboard" className="flex min-w-0 items-center gap-3" onClick={closeMobile}>
+            {compact ? (
+              <img
+                src={logoMark}
+                alt="Bizda"
+                className="h-10 w-10 rounded-2xl shadow-[0_8px_18px_rgba(15,118,110,0.22)]"
+              />
+            ) : (
+              <img
+                src={logo}
+                alt="Bizda"
+                className="h-8 w-auto max-w-[132px] object-contain object-left dark:invert dark:hue-rotate-180"
+              />
+            )}
+          </Link>
+          <button
+            type="button"
+            className="sidebar-toggle hidden lg:grid"
+            onClick={toggleCollapsed}
+            aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
-            <Icon size={20} />
-
-            {
-                !openToggle ?
-                <span>{item.title}</span> : ""}
-          </NavLink>
-        );
-      })}
-        </menu>
-        </div>
-        <div className={`${openToggle ? "flex-col" : "flex"} justify-between items-center p-3.5`} >
-            
-              
-              <div className="w-12 h-12 rounded-full overflow-hidden">
-                <img src={user?.avatar} alt="" className="w-full h-full object-cover"/>
-            </div> 
-            { 
-            !openToggle?
-            <div className="">
-                <p className="">{user?.firstName} {user?.lastName}</p>
-                <span className="text-[10px]">{user?.email}</span>    
-            </div> : "" }
-            
-          
-            <div onClick={handleLogout} className={`${openToggle? "mt-3" : ""} flex justify-center items-center`}>
-            <i className="bi bi-box-arrow-left text-red-600 cursor-pointer"></i>
-            </div> 
-            
+            {collapsed ? <PanelLeftOpen size={17} /> : <PanelLeftClose size={17} />}
+          </button>
         </div>
 
-    </div>
-  )
+        {!compact ? (
+          <p className="sidebar-kicker">Main menu</p>
+        ) : (
+          <div className="mx-5 mb-3 h-px bg-line/80" />
+        )}
+
+        <nav className="flex-1 space-y-1 overflow-y-auto px-0 pb-4">
+          {sidebarRoutes.map((item) => {
+            const link = (
+              <NavLink
+                key={item.id}
+                to={item.path}
+                onClick={closeMobile}
+                className={({ isActive }) =>
+                  isActive ? "sidebar-link active" : "sidebar-link"
+                }
+              >
+                <span className="sidebar-ico">
+                  <item.icon size={18} strokeWidth={1.85} />
+                </span>
+                {!compact ? <span className="sidebar-label">{item.label}</span> : null}
+              </NavLink>
+            );
+
+            return compact ? (
+              <Tooltip key={item.id} title={item.label} placement="right">
+                {link}
+              </Tooltip>
+            ) : (
+              link
+            );
+          })}
+        </nav>
+
+        <div className="sidebar-foot">
+          <div className={`sidebar-user ${compact ? "is-compact" : ""}`}>
+            <RemoteImg
+              className="sidebar-avatar"
+              src={user?.avatar}
+              fallback={photo}
+              alt=""
+            />
+            {!compact ? (
+              <div className="min-w-0 flex-1">
+                <strong className="block truncate text-[13px] font-semibold">
+                  {user?.firstName} {user?.lastName}
+                </strong>
+                <span className="block truncate text-[11px] text-muted">
+                  {user?.email}
+                </span>
+              </div>
+            ) : null}
+            <Tooltip title="Log out" placement="right">
+              <button
+                type="button"
+                onClick={logout}
+                className="sidebar-logout"
+                aria-label="Log out"
+              >
+                <LogOut size={16} />
+              </button>
+            </Tooltip>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
 }

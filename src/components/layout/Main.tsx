@@ -1,12 +1,11 @@
-import { Content } from "./Content"
-import { Header } from "./Header"
+import Context from "./Context";
+import Header from "./Header";
 
-
-export const Main = () => {
+export default function Main() {
   return (
-    <div className="w-full h-screen flex flex-col overflow-hidden">
-        <Header/>
-        <Content/>
-    </div>
-  )
+    <main className="ml-[var(--sidebar-w)] flex min-h-screen min-w-0 flex-1 flex-col bg-canvas text-ink transition-[margin] duration-300">
+      <Header />
+      <Context />
+    </main>
+  );
 }

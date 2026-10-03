@@ -1,41 +1,30 @@
 import { useMutation } from "@tanstack/react-query";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-import http from "../../../services/http";
-import { setToken } from "../utils/authStorage";
+import api from "../../../services/api";
+
+type LoginValues = {
+  email: string;
+  password: string;
+};
 
 const useLogin = () => {
   const navigate = useNavigate();
-
-  const { mutate, isPending } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationKey: ["login"],
-
-    mutationFn: (data: any) =>
-      http
-        .post("/admin/auth/login", data)
-        .then((res) => res?.data),
-
-    onSuccess: (res) => {
-      console.log("LOGIN RESPONSE:", res);
-
-      setToken(res.data.accessToken);
-        localStorage.setItem("crmRefreshToken", res.data.refreshToken);
-
-      navigate("/dashboard");
-
+    mutationFn: (data: LoginValues) =>
+      api.post("/admin/auth/login", data).then((res) => res?.data),
+    onSuccess: (data) => {
+      localStorage.setItem("crmAccessToken", data?.data?.accessToken);
+      localStorage.setItem("crmRefreshToken", data?.data?.refreshToken);
       message.success("Success");
+      navigate("/dashboard");
     },
-
-    onError: (error) => {
-      console.log("LOGIN ERROR:", error);
+    onError: () => {
       message.error("Error");
     },
   });
-
-  return {
-    mutate,
-    isPending,
-  };
+  return { isPending, mutate };
 };
 
 export default useLogin;

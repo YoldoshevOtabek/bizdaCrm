@@ -1,24 +1,21 @@
-import { AppRoute } from "./routes/AppRoute"
-import { ConfigProvider, theme } from "antd";
-import { useTheme } from "./context/ThemeContext";
+import { useEffect } from "react";
+import { useDarkMode } from "./context/DarkMode";
+import AppRoute from "./routes/AppRoute";
+import AntdTheme from "./components/theme/AntdTheme";
+import LayoutProvider from "./context/LayoutContext";
 
+export default function App() {
+  const { isDark } = useDarkMode();
 
-export const App = () => {
-  const { theme: isDark } = useTheme();
+  useEffect(() => {
+    document.title = "Bizda";
+  }, [isDark]);
+
   return (
-    <ConfigProvider
-      theme={{
-        algorithm: isDark
-        ? theme.defaultAlgorithm
-          : theme.darkAlgorithm,
-
-        token: {
-          colorPrimary: "#1677ff",
-          borderRadius: 8,
-        },
-      }}
-    >
-      <AppRoute/>
-    </ConfigProvider>
-  )
+    <AntdTheme>
+      <LayoutProvider>
+        <AppRoute />
+      </LayoutProvider>
+    </AntdTheme>
+  );
 }

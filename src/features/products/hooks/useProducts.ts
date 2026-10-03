@@ -1,25 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import http from "../../../services/http";
+import api from "../../../services/api";
 
-const useProducts = () => {
-  
-  const {
-    data: productData,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: ["products"],
-    queryFn: async () => {
-      const response = await http.get("/admin/products");
-      return response.data;
-    },
-  });
-  return {
-    productData,
-    isLoading,
-    isError,
-  
-}      
 
+const useProducts = ()=>{
+  const {data,isLoading} = useQuery({
+    queryKey:["products"],
+    queryFn:()=>api.get("/admin/products").then(res=>res?.data)
+  })
+
+  return {data,isLoading}
 }
-export default useProducts;
+
+export default useProducts

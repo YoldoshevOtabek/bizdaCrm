@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bag" x1="14" y1="16" x2="52" y2="60" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#7EEBB4"/>
+      <stop offset=".32" stop-color="#33C47A"/>
+      <stop offset="1" stop-color="#0E7040"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="24" y1="4" x2="42" y2="20" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4AD48C"/>
+      <stop offset="1" stop-color="#178A4E"/>
+    </linearGradient>
+    <linearGradient id="shine" x1="16" y1="18" x2="50" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7FFF1" stop-opacity=".7"/>
+      <stop offset=".42" stop-color="#E7FFF1" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#E7FFF1" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="b">
+      <path fill-rule="evenodd" d="M15 24.2c0-2.8 2.1-5 4.9-5h13.4c8.5 0 14.6 5 14.6 11.8 0 3.8-2 7-5.2 8.8 4.5 1.6 7.5 5.6 7.5 10.5 0 7.2-7 11.3-15.9 11.3H19.9c-2.8 0-4.9-2.2-4.9-5V24.2zm10.4 4.2c-.8 0-1.4.6-1.4 1.4v3c0 .8.6 1.4 1.4 1.4h6.3c2.6 0 4.3-1.4 4.3-2.9s-1.7-2.9-4.3-2.9h-6.3zm0 13.8c-.8 0-1.4.6-1.4 1.4v3.6c0 .8.6 1.4 1.4 1.4h6.8c3 0 5-1.6 5-3.2s-2-3.2-5-3.2h-6.8z"/>
+    </clipPath>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#1B2830"/>
+  <path d="M23.4 20.2c0-8.6 17.2-8.6 17.2 0" stroke="url(#handle)" stroke-width="5.2" stroke-linecap="round"/>
+  <path fill="url(#bag)" fill-rule="evenodd" d="M15 24.2c0-2.8 2.1-5 4.9-5h13.4c8.5 0 14.6 5 14.6 11.8 0 3.8-2 7-5.2 8.8 4.5 1.6 7.5 5.6 7.5 10.5 0 7.2-7 11.3-15.9 11.3H19.9c-2.8 0-4.9-2.2-4.9-5V24.2zm10.4 4.2c-.8 0-1.4.6-1.4 1.4v3c0 .8.6 1.4 1.4 1.4h6.3c2.6 0 4.3-1.4 4.3-2.9s-1.7-2.9-4.3-2.9h-6.3zm0 13.8c-.8 0-1.4.6-1.4 1.4v3.6c0 .8.6 1.4 1.4 1.4h6.8c3 0 5-1.6 5-3.2s-2-3.2-5-3.2h-6.8z"/>
+  <path fill="url(#shine)" clip-path="url(#b)" d="M12 16h18l26 48H30z"/>
+</svg>

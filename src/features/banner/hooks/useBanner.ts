@@ -1,25 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import http from "../../../services/http";
+import api from "../../../services/api";
 
-const useBanner = () => {
-  
-  const {
-    data: bannerData,
-    isLoading,
-    isError
-  } = useQuery({
-    queryKey: ["banners"],
-    queryFn: async () => {
-      const response = await http.get("/admin/banners");
-      return response?.data?.data;
-    },
-  });
-  return {
-    bannerData,
-    isLoading,
-    isError,
-  
-}      
 
+const useBanners = ()=>{
+  const {data:banners,isLoading} = useQuery({
+    queryKey:["banners"],
+    queryFn:()=>api.get("/admin/banners").then(res=>res?.data)
+  })
+
+  return {banners,isLoading}
 }
-export default useBanner;
+
+export default useBanners

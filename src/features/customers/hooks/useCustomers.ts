@@ -1,25 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
-import http from "../../../services/http";
+import api from "../../../services/api";
 
-const useCustomer = () => {
-  
-  const {
-    data: customersData,
-    isLoading,
-    isError ,
-  } = useQuery({
-    queryKey: ["customers"],
-    queryFn: async () => {
-      const response = await http.get("/admin/customers");
-      return response.data;
-    },
-  });
-  return {
-    customersData,
-    isLoading,
-    isError,
-  
-}      
 
+const useCustomers = ()=>{
+  const {data,isLoading} = useQuery({
+    queryKey:["customers"],
+    queryFn:()=>api.get("/admin/customers").then(res=>res?.data)
+  })
+
+  return {data,isLoading}
 }
-export default useCustomer;
+
+export default useCustomers
